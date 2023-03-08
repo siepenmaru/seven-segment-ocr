@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+##################
+# Manually added #
+##################
+
+# sample images directory
+sample/
