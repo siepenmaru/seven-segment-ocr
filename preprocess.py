@@ -2,7 +2,9 @@ import numpy as np
 import imutils
 import cv2 
 
-def detect_edges(img, saves=False):
+# TODO: Detect screen corners, automatically crop to isolate LCD output
+
+def binarize(img, saves=False):
     # Resize image
     out = imutils.resize(img, height=300)
 
@@ -27,14 +29,19 @@ def detect_edges(img, saves=False):
     # out = cv2.adaptiveThreshold(out, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
     _, out = cv2.threshold(out, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
+    if saves:
+        cv2.imwrite('binarized.jpg', out)
+
+    return out
+
+def edge_detect(img, saves=False):
     # Canny edge detection
-    out = cv2.Canny(out, 30, 200)
+    out = cv2.Canny(img, 30, 200)
 
     if saves:
         cv2.imwrite('contours.jpg', out)
 
-    return out
-
 if __name__ == "__main__":
     img = cv2.imread('sample/sample_1.jpeg')
-    detect_edges(img, saves=True)
+    binarize(img, saves=True)
+    edge_detect(img, saves=True)
